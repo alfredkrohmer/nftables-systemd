@@ -10,6 +10,10 @@ then
 	exit 1
 fi
 
+function usage() {
+	echo "USAGE: $0 start|stop|restart"
+}
+
 function ctrl_c() {
 	echo
 	echo "nftables rules successfully applied"
@@ -76,5 +80,9 @@ case $1 in
 
 	restart)
 		nftables_restart
+		;;
+	*)
+		usage
+		exit 1
 		;;
 esac

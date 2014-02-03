@@ -1,5 +1,6 @@
 [Unit]
 Description=nftables
+Documentation=man:nftables(8)
 
 [Service]
 Type=oneshot

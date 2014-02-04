@@ -4,7 +4,7 @@ set -e
 
 type nft > /dev/null
 
-if [ ! -e /etc/nftables ]
+if [ ! -d /etc/nftables ]
 then
 	echo "Rules directory /etc/nftables does not exist" >&2
 	exit 1

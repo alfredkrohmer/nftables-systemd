@@ -31,3 +31,8 @@ Copy the supplied systemd service file to `/usr/lib/systemd/system/` or `/etc/sy
 ```
 systemctl status|start|stop|restart|enable|disable nftables
 ```
+
+Installation
+============
+
+Archlinux: https://aur.archlinux.org/packages/nftables-git/

@@ -42,7 +42,7 @@ function nft_clear_protocol() {
 
 
 function nftables_start() {
-	find /etc/nftables -maxdepth 1 -type f -print0 -name '*.rules' | \
+	find /etc/nftables -maxdepth 1 -type f  -name '*.rules' -print0 | \
 		sort -z | xargs --null --no-run-if-empty --max-args=1 nft -f
 
 	if [ -t 0 ]

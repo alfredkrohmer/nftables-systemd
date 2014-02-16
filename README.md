@@ -20,6 +20,11 @@ to clear all rules. Restarting is also possible:
 ```bash
 nftables-ctl restart
 ```
+to list all rules:
+```bash
+nftables-ctl list
+```
+
 
 When you run `nftables-ctl start` or `nftables-ctl restart` from a terminal, it will apply your rules and ask you to check your network connection. When your network is still working as desired, you have 20 seconds to press Ctrl+C to leave your rules applied. When the timeout expires, `nftables-ctl stop` will be called in order to flush all rules and make your network accessable again. This should prevent you from locking yourself out from your (remote) machine accidently by applying flawed rules.
 

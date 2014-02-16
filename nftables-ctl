@@ -11,7 +11,7 @@ then
 fi
 
 function usage() {
-	echo "USAGE: $0 start|stop|restart"
+	echo "USAGE: $0 start|stop|restart|list"
 }
 
 function ctrl_c() {
@@ -40,9 +40,15 @@ function nft_clear_protocol() {
 	done
 }
 
+function nft_list_protocol() {
+	for T in $(nft list tables $1 | cut -d ' ' -f 2)
+	do
+		nft list table $1 $T
+	done
+}
 
 function nftables_start() {
-	find /etc/nftables -maxdepth 1 -type f  -name '*.rules' -print0 | \
+	find /etc/nftables -maxdepth 1 -type f -name '*.rules' -print0 | \
 		sort -z | xargs --null --no-run-if-empty --max-args=1 nft -f
 
 	if [ -t 0 ]
@@ -50,17 +56,24 @@ function nftables_start() {
 		echo "Please check networking connection and press Ctrl+C on success"
 		trap ctrl_c INT
 
-        	sleep 20
+		sleep 20
 
 		echo "No response, flushing rules"
 		nftables_stop
 	fi
 }
 
+function nftables_list() {
+	for P in ip ip6 arp bridge
+	do
+		nft_list_protocol $P
+	done
+}
+
 function nftables_stop() {
 	for P in ip ip6 arp bridge
 	do
-        	nft_clear_protocol $P
+		nft_clear_protocol $P
 	done
 }
 
@@ -80,6 +93,9 @@ case $1 in
 
 	restart)
 		nftables_restart
+		;;
+	list)
+		nftables_list
 		;;
 	*)
 		usage

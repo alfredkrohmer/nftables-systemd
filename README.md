@@ -1,7 +1,7 @@
 nftables-systemd
 ================
 
-This project contains a script called `nftables-ctl` which can start `nftables` up by adding certain rules defined in `nft` scripts and shut it down by clearing and deleting all chains and tables for every protocol.
+This project contains a script called `nftablesctl` which can start `nftables` up by adding certain rules defined in `nft` scripts and shut it down by clearing and deleting all chains and tables for every protocol.
 
 Usage
 =====
@@ -10,28 +10,28 @@ Place the `nft` scripts you want to apply in `/etc/nftables/` and make sure they
 
 You can use
 ```bash
-nftables-ctl start
+nftablesctl start
 ```
 to load all of your scripts and
 ```bash
-nftables-ctl stop
+nftablesctl stop
 ```
 to clear all rules. Restarting is also possible:
 ```bash
-nftables-ctl restart
+nftablesctl restart
 ```
 to list all rules:
 ```bash
-nftables-ctl list
+nftablesctl list
 ```
 
 
-When you run `nftables-ctl start` or `nftables-ctl restart` from a terminal, it will apply your rules and ask you to check your network connection. When your network is still working as desired, you have 20 seconds to press Ctrl+C to leave your rules applied. When the timeout expires, `nftables-ctl stop` will be called in order to flush all rules and make your network accessable again. This should prevent you from locking yourself out from your (remote) machine accidently by applying flawed rules.
+When you run `nftablesctl start` or `nftablesctl restart` from a terminal, it will apply your rules and ask you to check your network connection. When your network is still working as desired, you have 20 seconds to press Ctrl+C to leave your rules applied. When the timeout expires, `nftablesctl stop` will be called in order to flush all rules and make your network accessable again. This should prevent you from locking yourself out from your (remote) machine accidently by applying flawed rules.
 
 systemd
 =======
 
-Copy the supplied systemd service file to `/usr/lib/systemd/system/` or `/etc/systemd/system/` to be able to run `nftables-ctl` as a service, e.g. at boot time.
+Copy the supplied systemd service file to `/usr/lib/systemd/system/` or `/etc/systemd/system/` to be able to run `nftablesctl` as a service, e.g. at boot time.
 
 ```
 systemctl status|start|stop|restart|enable|disable nftables

@@ -93,9 +93,11 @@ case $1 in
 	restart)
 		nftables_restart
 		;;
+		
 	list)
 		nftables_list
 		;;
+		
 	*)
 		usage
 		exit 1

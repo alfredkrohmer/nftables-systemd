@@ -98,7 +98,7 @@ case $1 in
 		nftables_start
 		;;
 
-	start_nocheck)
+	start_noconfirm)
 		nftables_start_noconfirm
 		;;
 

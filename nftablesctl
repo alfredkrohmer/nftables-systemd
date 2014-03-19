@@ -3,6 +3,12 @@
 set -e
 type nft > /dev/null
 
+if [ $EUID -ne 0 ]
+then
+	echo "Only root can run this script" >&2
+	exit 1
+fi
+
 if [ ! -d /etc/nftables ]
 then
 	echo "Rules directory /etc/nftables does not exist" >&2
@@ -50,7 +56,7 @@ nftables_start() {
 	find /etc/nftables -maxdepth 1 -type f -name '*.rules' -print0 | \
 		sort -z | xargs --null --no-run-if-empty --max-args=1 nft -f
 
-	if [ -t 0 ]
+	if [ -t 0 ] && [ "$1" == "--confirm" ]
 	then
 		echo "Please check networking connection and press Ctrl+C on success"
 		trap ctrl_c INT
@@ -78,12 +84,12 @@ nftables_stop() {
 
 nftables_restart() {
 	nftables_stop
-	nftables_start
+	nftables_start $1
 }
 
 case $1 in
 	start)
-		nftables_start
+		nftables_start $2
 		;;
 
 	stop)
@@ -91,13 +97,13 @@ case $1 in
 		;;
 
 	restart)
-		nftables_restart
+		nftables_restart $2
 		;;
-		
+
 	list)
 		nftables_list
 		;;
-		
+
 	*)
 		usage
 		exit 1

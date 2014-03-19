@@ -10,7 +10,7 @@ then
 fi
 
 usage() {
-	echo "USAGE: $0 start|start_nocheck|stop|restart|list"
+	echo "USAGE: $0 start|start_noconfirm|stop|restart|list"
 }
 
 ctrl_c() {
@@ -63,7 +63,7 @@ nftables_start() {
 }
 
 # Use this if you don't want the safety provided by nftables_start()
-nftables_start_nocheck() {
+nftables_start_noconfirm() {
 	find /etc/nftables -maxdepth 1 -type f -name '*.rules' -print0 | \
 		sort -z | xargs --null --no-run-if-empty --max-args=1 nft -f
 }
@@ -94,7 +94,7 @@ case $1 in
 		;;
 
 	start_nocheck)
-		nftables_start_nocheck
+		nftables_start_noconfirm
 		;;
 
 	stop)

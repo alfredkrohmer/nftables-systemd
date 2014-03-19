@@ -10,7 +10,7 @@ then
 fi
 
 usage() {
-	echo "USAGE: $0 start|start_noconfirm|stop|restart|list"
+	echo "USAGE: $0 start|start_noconfirm|stop|restart|restart_noconfirm|list"
 }
 
 ctrl_c() {
@@ -88,6 +88,11 @@ nftables_restart() {
 	nftables_start
 }
 
+nftables_restart_noconfirm() {
+	nftables_stop
+	nftables_start_noconfirm
+}
+
 case $1 in
 	start)
 		nftables_start
@@ -104,11 +109,15 @@ case $1 in
 	restart)
 		nftables_restart
 		;;
-		
+
+	restart_noconfirm)
+		nftables_restart_noconfirm
+		;;
+
 	list)
 		nftables_list
 		;;
-		
+
 	*)
 		usage
 		exit 1

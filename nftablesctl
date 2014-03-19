@@ -10,7 +10,7 @@ then
 fi
 
 usage() {
-	echo "USAGE: $0 start|stop|restart|list"
+	echo "USAGE: $0 start|start_nocheck|stop|restart|list"
 }
 
 ctrl_c() {
@@ -52,7 +52,7 @@ nftables_start() {
 
 	if [ -t 0 ]
 	then
-		echo "Please check networking connection and press Ctrl+C on success"
+		echo "Please confirm that your network connection is working and press Ctrl+C on success"
 		trap ctrl_c INT
 
 		sleep 20
@@ -61,6 +61,13 @@ nftables_start() {
 		nftables_stop
 	fi
 }
+
+# Use this if you don't want the safety provided by nftables_start()
+nftables_start_nocheck() {
+	find /etc/nftables -maxdepth 1 -type f -name '*.rules' -print0 | \
+		sort -z | xargs --null --no-run-if-empty --max-args=1 nft -f
+}
+
 
 nftables_list() {
 	for P in ip ip6 arp bridge
@@ -84,6 +91,10 @@ nftables_restart() {
 case $1 in
 	start)
 		nftables_start
+		;;
+
+	start_nocheck)
+		nftables_start_nocheck
 		;;
 
 	stop)

@@ -5,23 +5,23 @@ type nft > /dev/null
 
 usage() {
 	echo "Usage: $0 start|stop|restart|list"
-    echo
-    echo "       $0 start     load the rules"
-    echo "       $0 stop      flush the rules"
-    echo "       $0 restart   reload the rules"
-    echo "       $0 list      list the loaded rules"
-    echo
-    echo "Using --confirm in the following manner will prompt you to check if"
-    echo "your network connection is working fine:"
-    echo
-    echo "       $0 start --confirm"
-    echo "       $0 restart --confirm"
+	echo
+	echo "       $0 start     load the rules"
+	echo "       $0 stop      flush the rules"
+	echo "       $0 restart   reload the rules"
+	echo "       $0 list      list the loaded rules"
+	echo
+	echo "Using --confirm in the following manner will prompt you to check if"
+	echo "your network connection is working fine:"
+	echo
+	echo "       $0 start --confirm"
+	echo "       $0 restart --confirm"
 }
 
 if [ $EUID -ne 0 ]
 then
 	echo "Warning: Only root can run this script" >&2
-    echo
+	echo
 	usage
 	exit 1
 fi
@@ -71,7 +71,7 @@ nftables_start() {
 
 	if [ -t 0 ] && [ "$1" == "--confirm" ]
 	then
-		echo "Please check networking connection and press Ctrl+C on success"
+		echo "Please confirm that your network connection is working and press Ctrl+C on success"
 		trap ctrl_c INT
 
 		sleep 20

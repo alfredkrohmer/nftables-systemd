@@ -17,6 +17,17 @@ fi
 
 usage() {
 	echo "USAGE: $0 start|stop|restart|list"
+    echo
+    echo "       $0 start     load the rules"
+    echo "       $0 stop      flush the rules"
+    echo "       $0 restart   reload the rules"
+    echo "       $0 list      list the loaded rules"
+    echo
+    echo "Using --confirm in the following manner will prompt you to check if"
+    echo "your network connection is working fine:"
+    echo
+    echo "       $0 start --confirm"
+    echo "       $0 restart --confirm"
 }
 
 ctrl_c() {

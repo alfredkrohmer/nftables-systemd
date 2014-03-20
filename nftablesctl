@@ -3,20 +3,8 @@
 set -e
 type nft > /dev/null
 
-if [ $EUID -ne 0 ]
-then
-	echo "Only root can run this script" >&2
-	exit 1
-fi
-
-if [ ! -d /etc/nftables ]
-then
-	echo "Rules directory /etc/nftables does not exist" >&2
-	exit 1
-fi
-
 usage() {
-	echo "USAGE: $0 start|stop|restart|list"
+	echo "Usage: $0 start|stop|restart|list"
     echo
     echo "       $0 start     load the rules"
     echo "       $0 stop      flush the rules"
@@ -29,6 +17,20 @@ usage() {
     echo "       $0 start --confirm"
     echo "       $0 restart --confirm"
 }
+
+if [ $EUID -ne 0 ]
+then
+	echo "Warning: Only root can run this script" >&2
+    echo
+	usage
+	exit 1
+fi
+
+if [ ! -d /etc/nftables ]
+then
+	echo "Rules directory /etc/nftables does not exist" >&2
+	exit 1
+fi
 
 ctrl_c() {
 	echo

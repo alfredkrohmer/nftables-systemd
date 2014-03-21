@@ -40,4 +40,4 @@ systemctl status|start|stop|restart|enable|disable nftables
 Installation
 ============
 
-Archlinux: https://aur.archlinux.org/packages/nftables-git/
+Arch Linux: https://aur.archlinux.org/packages/nftables-systemd-git/

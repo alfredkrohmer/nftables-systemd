@@ -41,6 +41,7 @@ ctrl_c() {
 nft_clear_table() {
 	nft flush table $1 $2
 	nft list table $1 $2 | awk '/^[ \t]+chain/{ print $2 }' | xargs -r -L 1 nft delete chain $1 $2
+	nft list sets $1 $2 | awk '/^[ \t]+set/{ print $2 }' | xargs -r -L 1 nft delete set $1 $2
 }
 
 nft_delete_table() {

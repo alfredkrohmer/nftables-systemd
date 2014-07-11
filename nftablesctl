@@ -39,9 +39,13 @@ ctrl_c() {
 }
 
 nft_clear_table() {
-	nft flush table $1 $2
-	nft list table $1 $2 | awk '/^[ \t]+chain/{ print $2 }' | xargs -r -L 1 nft delete chain $1 $2
-	nft list sets $1 $2 | awk '/^[ \t]+set/{ print $2 }' | xargs -r -L 1 nft delete set $1 $2
+	nft flush table "$1" "$2"
+	nft list table "$1" "$2" \
+		| awk '/^[ \t]+chain/{ print $2 }' \
+		| xargs -r -L 1 nft delete chain "$1" "$2"
+	nft list sets "$1" "$2" \
+		| awk '/^[ \t]+set/{ print $2 }' \
+		| xargs -r -L 1 nft delete set "$1" "$2"
 }
 
 nft_delete_table() {
@@ -53,16 +57,16 @@ nft_delete_table() {
 }
 
 nft_clear_protocol() {
-	for T in $(nft list tables $1 | cut -d ' ' -f 2)
+	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
 	do
-		nft_delete_table $1 $T
+		nft_delete_table "$1" "$T"
 	done
 }
 
 nft_list_protocol() {
-	for T in $(nft list tables $1 | cut -d ' ' -f 2)
+	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
 	do
-		nft list table $1 $T
+		nft list table "$1" "$T"
 	done
 }
 
@@ -98,12 +102,12 @@ nftables_stop() {
 
 nftables_restart() {
 	nftables_stop
-	nftables_start $1
+	nftables_start "$1"
 }
 
 case $1 in
 	start)
-		nftables_start $2
+		nftables_start "$2"
 		;;
 
 	stop)
@@ -111,7 +115,7 @@ case $1 in
 		;;
 
 	restart)
-		nftables_restart $2
+		nftables_restart "$2"
 		;;
 
 	list)

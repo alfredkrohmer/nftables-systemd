@@ -4,18 +4,19 @@ set -e
 type nft > /dev/null
 
 usage() {
-	echo "Usage: $0 start|stop|restart|list"
+	name=$(basename "$0")
+	echo "Usage: $name start|stop|restart|list"
 	echo
-	echo "       $0 start     load the rules"
-	echo "       $0 stop      flush the rules"
-	echo "       $0 restart   reload the rules"
-	echo "       $0 list      list the loaded rules"
+	echo "       $name start     load the rules"
+	echo "       $name stop      flush the rules"
+	echo "       $name restart   reload the rules"
+	echo "       $name list      list the loaded rules"
 	echo
 	echo "Using --confirm in the following manner will prompt you to check if"
 	echo "your network connection is working fine:"
 	echo
-	echo "       $0 start --confirm"
-	echo "       $0 restart --confirm"
+	echo "       $name start --confirm"
+	echo "       $name restart --confirm"
 }
 
 if [ $EUID -ne 0 ]

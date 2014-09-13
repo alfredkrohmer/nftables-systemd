@@ -27,11 +27,13 @@ then
 	exit 1
 fi
 
-if [ ! -d /etc/nftables ]
-then
-	echo "Rules directory /etc/nftables does not exist" >&2
-	exit 1
-fi
+check_etc_nftables() {
+	if [ ! -d /etc/nftables ]
+	then
+		echo "Rules directory /etc/nftables does not exist" >&2
+		exit 1
+	fi
+}
 
 ctrl_c() {
 	echo
@@ -109,6 +111,7 @@ nftables_restart() {
 cmd="$1"; shift
 case $cmd in
 	start)
+		check_etc_nftables
 		nftables_start "$@"
 		;;
 
@@ -117,6 +120,7 @@ case $cmd in
 		;;
 
 	restart)
+		check_etc_nftables
 		nftables_restart "$@"
 		;;
 

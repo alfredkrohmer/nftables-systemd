@@ -4,7 +4,7 @@ set -e
 type nft > /dev/null
 
 usage() {
-	name=$(basename "$0")
+	name=`basename "$0"`
 	echo "Usage: $name start|stop|restart|list"
 	echo
 	echo "       $name start     load the rules"
@@ -27,11 +27,13 @@ then
 	exit 1
 fi
 
-if [ ! -d /etc/nftables ]
-then
-	echo "Rules directory /etc/nftables does not exist" >&2
-	exit 1
-fi
+check_etc_nftables() {
+	if [ ! -d /etc/nftables ]
+	then
+		echo "Rules directory /etc/nftables does not exist" >&2
+		exit 1
+	fi
+}
 
 ctrl_c() {
 	echo
@@ -58,14 +60,14 @@ nft_delete_table() {
 }
 
 nft_clear_protocol() {
-	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
+	for T in `nft list tables "$1" | cut -d ' ' -f 2`
 	do
 		nft_delete_table "$1" "$T"
 	done
 }
 
 nft_list_protocol() {
-	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
+	for T in `nft list tables "$1" | cut -d ' ' -f 2`
 	do
 		nft list table "$1" "$T"
 	done
@@ -103,24 +105,27 @@ nftables_stop() {
 
 nftables_restart() {
 	nftables_stop
-	nftables_start "$1"
+	nftables_start "$@"
 }
 
-case $1 in
+cmd="$1"; shift
+case $cmd in
 	start)
-		nftables_start "$2"
+		check_etc_nftables
+		nftables_start "$@"
 		;;
 
 	stop)
-		nftables_stop
+		nftables_stop "$@"
 		;;
 
 	restart)
-		nftables_restart "$2"
+		check_etc_nftables
+		nftables_restart "$@"
 		;;
 
 	list)
-		nftables_list
+		nftables_list "$@"
 		;;
 
 	*)

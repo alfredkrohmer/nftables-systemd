@@ -103,24 +103,25 @@ nftables_stop() {
 
 nftables_restart() {
 	nftables_stop
-	nftables_start "$1"
+	nftables_start "$@"
 }
 
-case $1 in
+cmd="$1"; shift
+case $cmd in
 	start)
-		nftables_start "$2"
+		nftables_start "$@"
 		;;
 
 	stop)
-		nftables_stop
+		nftables_stop "$@"
 		;;
 
 	restart)
-		nftables_restart "$2"
+		nftables_restart "$@"
 		;;
 
 	list)
-		nftables_list
+		nftables_list "$@"
 		;;
 
 	*)

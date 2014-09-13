@@ -4,7 +4,7 @@ set -e
 type nft > /dev/null
 
 usage() {
-	name=$(basename "$0")
+	name=`basename "$0"`
 	echo "Usage: $name start|stop|restart|list"
 	echo
 	echo "       $name start     load the rules"
@@ -58,14 +58,14 @@ nft_delete_table() {
 }
 
 nft_clear_protocol() {
-	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
+	for T in `nft list tables "$1" | cut -d ' ' -f 2`
 	do
 		nft_delete_table "$1" "$T"
 	done
 }
 
 nft_list_protocol() {
-	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
+	for T in `nft list tables "$1" | cut -d ' ' -f 2`
 	do
 		nft list table "$1" "$T"
 	done

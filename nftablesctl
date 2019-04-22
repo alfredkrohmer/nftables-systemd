@@ -39,31 +39,6 @@ ctrl_c() {
 	exit 0
 }
 
-nft_clear_table() {
-	nft flush table "$1" "$2"
-	nft list table "$1" "$2" \
-		| awk '/^[ \t]+chain/{ print $2 }' \
-		| xargs -r -L 1 nft delete chain "$1" "$2"
-	nft list sets "$1" "$2" \
-		| awk '/^[ \t]+set/{ print $2 }' \
-		| xargs -r -L 1 nft delete set "$1" "$2"
-}
-
-nft_delete_table() {
-	nft_clear_table "$1" "$2"
-	if nft list table "$1" "$2" > /dev/null
-	then
-		nft delete table "$1" "$2"
-	fi
-}
-
-nft_clear_protocol() {
-	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
-	do
-		nft_delete_table "$1" "$T"
-	done
-}
-
 nft_list_protocol() {
 	for T in $(nft list tables "$1" | cut -d ' ' -f 2)
 	do
@@ -95,10 +70,7 @@ nftables_list() {
 }
 
 nftables_stop() {
-	for P in ip inet ip6 arp bridge
-	do
-		nft_clear_protocol "$P"
-	done
+	nft flush ruleset
 }
 
 nftables_restart() {

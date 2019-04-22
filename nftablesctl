@@ -11,6 +11,7 @@ usage() {
 	echo "       $name stop      flush the rules"
 	echo "       $name restart   reload the rules"
 	echo "       $name list      list the loaded rules"
+	echo "       $name save      write loaded rules to stdout in saveable format"
 	echo
 	echo "Using --confirm in the following manner will prompt you to check if"
 	echo "your network connection is working fine:"
@@ -93,6 +94,14 @@ case "$1" in
 
 	list)
 		nftables_list
+		;;
+
+	save)
+		echo "#!/usr/sbin/nft -f"
+		echo
+		echo "flush ruleset"
+		echo
+		nft list ruleset
 		;;
 
 	*)

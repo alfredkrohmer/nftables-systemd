@@ -1,0 +1,4 @@
+#!/bin/sbin/nft -f
+
+# Flush first only, other *.rules files may pile on after this.
+flush ruleset

@@ -1,0 +1,19 @@
+# Masquerading
+
+# input here was wlan0, and output could go to either eth0 or tun0:
+define iface_in = wlan0
+define iface_out = { eth0, tun0 }
+
+
+table ip nat {
+	chain prerouting {
+		type nat hook prerouting priority 0; policy accept;
+	}
+
+	# For all packets to any $iface_out interface, after routing,
+	# replace source address with primary IP of $iface_out interface
+	chain postrouting {
+		type nat hook postrouting priority 0; policy accept;
+		oifname $iface_out masquerade;
+	}
+}

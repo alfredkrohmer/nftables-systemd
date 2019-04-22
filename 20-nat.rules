@@ -10,7 +10,8 @@ table ip nat {
 		type nat hook prerouting priority 0; policy accept;
 	}
 
-	# for all packets to $iface_out, after routing, replace source address with primary IP of $iface_out interface
+	# For all packets to any $iface_out interface, after routing,
+	# replace source address with primary IP of $iface_out interface
 	chain postrouting {
 		type nat hook postrouting priority 0; policy accept;
 		oifname $iface_out masquerade;

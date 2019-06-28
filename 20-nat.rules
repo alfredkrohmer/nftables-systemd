@@ -1,4 +1,7 @@
 # Masquerading
+#
+# SPDX-License-Identifier: GPL-2.0
+# SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
 
 # input here was wlan0, and output could go to either eth0 or tun0:
 define iface_in = wlan0

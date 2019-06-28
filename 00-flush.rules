@@ -1,4 +1,7 @@
 #!/bin/sbin/nft -f
+#
+# SPDX-License-Identifier: GPL-2.0
+# SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
 
 # Flush first only, other *.rules files may pile on after this.
 flush ruleset

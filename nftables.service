@@ -3,6 +3,8 @@
 [Unit]
 Description=nftables
 Documentation=man:nftables(8)
+Before=network-pre.target
+Wants=network-pre.target
 
 [Service]
 Type=oneshot
